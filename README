@@ -1,0 +1,32 @@
+Description
+===========
+
+Global thread safe logger that can store request specific context. Intended for writing denormalized indexable rows to SQL db.
+
+Includes: ip address, timestamp, function name, file name, line # and function arguments
+
+
+Example
+=======
+import contextual_logger as logger
+
+logger.set_context({'sessiond_id': 123})
+logger.info({'user_id': 1})
+
+
+Setup
+=======
+
+    def write(row):
+        # row is a dictionary
+        write_to_db(row)
+
+    logger.configure_writer(write)
+
+
+Set INDEXES and PACKAGE_PREFIX in contextual_logger.py
+
+
+NOTES
+=======
+Thread safe but logger.clear_context() must be called on each new request
