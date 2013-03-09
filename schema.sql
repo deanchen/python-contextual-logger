@@ -1,3 +1,5 @@
+CREATE DATABASE logs;
+
 CREATE TABLE "logs" (
 	"_ip" text NOT NULL,
 	"_priority" int2 NOT NULL,
