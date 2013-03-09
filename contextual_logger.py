@@ -13,6 +13,7 @@ _LOCAL = threading.local()
 _INTERNAL_INDEXES = ('_function', '_file', '_ip', '_priority',
                      '_timestamp', '_event')
 _WRITE_FN = None
+_CONFIGURED = False
 
 DEBUG = 7
 INFO = 6
@@ -25,12 +26,16 @@ EMERGENCY = 0
 
 
 def configure(writeFn, indexes=None, root=None, force=False):
+    global _CONFIGURED
+
     global _WRITE_FN
     global _INDEXES
     global _ROOT
 
-    if not force and (_WRITE_FN or _INDEXES or _ROOT):
+    if not force and not _CONFIGURED:
         raise AttributeError("Module already configured.")
+
+    _CONFIGURED = True
 
     _WRITE_FN = writeFn
     if indexes:
@@ -108,6 +113,11 @@ def _truncate_filename(filename):
 
 
 def _log(priority, data, traceback=None):
+    global _WRITE_FN
+
+    if not _WRITE_FN:
+        raise RuntimeWarning('write function not configured')
+
     if data is None:
         data = {}
     elif isinstance(data, basestring):
