@@ -6,7 +6,7 @@ from lib.norm import INSERT
 LOG_QUEUE = Queue()
 
 
-def writer(row):
+def write(row):
     LOG_QUEUE.put_nowait(row)
 
 

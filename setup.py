@@ -8,4 +8,4 @@ setup(name='contextual-logger',
       author='Dean Chen',
       author_email='deanchen5@gmail.com',
       url='http://github.com/deanchen/python-contextual-logger',
-      py_modules=['contextual_logger'])
+      packages=['contextual_logger', 'contextual_logger.writers'])

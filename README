@@ -1,14 +1,14 @@
 Description
 ===========
 
-Global thread safe logger that can store request specific context. Intended for writing denormalized indexable rows to SQL db.
+Thread safe logger supporting global context context. Useful writing denormalized indexable log lines for request driven applications.
 
 Includes: ip address, timestamp, function name, file name, line # and function arguments
 
 
 Example
 =======
-import contextual_logger as logger
+import contextual_logger.logger as logger
 
 logger.set_context({'sessiond_id': 123})
 logger.info({'user_id': 1})
