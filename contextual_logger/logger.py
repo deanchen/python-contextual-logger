@@ -26,7 +26,7 @@ ALERT = 1
 EMERGENCY = 0
 
 
-def configure(writeFn, indexes=None, root=None, force=False):
+def configure(write_fn, indexes=None, root=None, force=False):
     global _CONFIGURED
 
     global _WRITE_FN
@@ -38,10 +38,13 @@ def configure(writeFn, indexes=None, root=None, force=False):
 
     _CONFIGURED = True
 
-    _WRITE_FN = writeFn
+    if write_fn:
+        _WRITE_FN = write_fn
     if indexes:
         _INDEXES = indexes
     if root:
+        if root[-1] != '/':
+            root += '/'
         _ROOT = root
 
 
@@ -105,12 +108,9 @@ def _function_data(fn, fn_args, fn_kwargs):
 
 
 def _truncate_filename(filename):
-    file_parts = filename.split('/')
-    try:
-        index = file_parts.index(_ROOT) + 1
-        return '/'.join(file_parts[index:])
-    except ValueError:
-        return filename
+    if filename.startswith(_ROOT):
+        filename = filename[len(_ROOT):]
+    return filename
 
 
 def _log(priority, event, data, traceback=None):

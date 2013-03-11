@@ -1,14 +1,16 @@
 import time
+from os import path
 import contextual_logger.logger as logger
 from tests import test_helper
 
 
-def test_set_write_function():
+def test_set_write_function(force=False):
     def write(row):
         return row
 
     indexes = ('index1', 'index2')
-    logger.configure(write, indexes, 'contextual_logger')
+    root_dir = path.dirname(path.dirname(__file__))
+    logger.configure(write, indexes, root_dir, force=force)
 
 
 def test_log_dict():
@@ -65,8 +67,7 @@ def test_decorator():
     logger.configure(write, force=True)
     test_helper.decorated_func(1, arg2=2)
 
-    indexes = ('index1', 'index2')
-    logger.configure(lambda x: x, indexes, 'contextual_logger', force=True)
+    test_set_write_function(force=True)
 
 
 def test_context():
