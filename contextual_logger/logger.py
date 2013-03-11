@@ -1,3 +1,4 @@
+from __future__ import print_function
 import threading
 import inspect
 import time
@@ -12,7 +13,7 @@ _IP_ADDRESS = socket.gethostbyname(socket.gethostname())
 _LOCAL = threading.local()
 _INTERNAL_INDEXES = ('_function', '_file', '_ip', '_priority',
                      '_timestamp', '_event')
-_WRITE_FN = None
+_WRITE_FN = lambda row: print(row)
 _CONFIGURED = False
 
 DEBUG = 7
@@ -114,9 +115,6 @@ def _truncate_filename(filename):
 
 def _log(priority, data, traceback=None):
     global _WRITE_FN
-
-    if not _WRITE_FN:
-        raise RuntimeWarning('write function not configured')
 
     if data is None:
         data = {}
