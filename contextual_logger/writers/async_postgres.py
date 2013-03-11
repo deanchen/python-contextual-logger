@@ -1,7 +1,7 @@
 from Queue import Queue
 import threading
 import psycopg2
-from lib.norm import INSERT
+from contextual_logger.writers.norm import INSERT
 
 LOG_QUEUE = Queue()
 

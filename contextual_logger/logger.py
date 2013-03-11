@@ -32,7 +32,7 @@ def configure(writeFn, indexes=None, root=None, force=False):
     global _INDEXES
     global _ROOT
 
-    if not force and not _CONFIGURED:
+    if not force and _CONFIGURED:
         raise AttributeError("Module already configured.")
 
     _CONFIGURED = True

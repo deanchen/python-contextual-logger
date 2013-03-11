@@ -1,5 +1,5 @@
 import time
-import contextual_logger as logger
+import contextual_logger.logger as logger
 from tests import test_helper
 
 
@@ -8,7 +8,7 @@ def test_set_write_function():
         return row
 
     indexes = ('index1', 'index2')
-    logger.configure(write, indexes, 'contextual_logger', force=True)
+    logger.configure(write, indexes, 'contextual_logger')
 
 
 def test_log_dict():
@@ -63,7 +63,9 @@ def test_decorator():
 
     logger.configure(write, force=True)
     test_helper.decorated_func(1, arg2=2)
-    test_set_write_function()
+
+    indexes = ('index1', 'index2')
+    logger.configure(lambda x: x, indexes, 'contextual_logger', force=True)
 
 
 def test_context():

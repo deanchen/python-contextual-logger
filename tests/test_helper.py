@@ -1,4 +1,4 @@
-import contextual_logger as logger
+import contextual_logger.logger as logger
 
 
 def func(arg1, arg2='default', arg3='default'):
