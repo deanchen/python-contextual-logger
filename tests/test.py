@@ -12,7 +12,7 @@ def test_set_write_function():
 
 
 def test_log_dict():
-    row = logger.debug({'data': 'some_data'})
+    row = logger.debug('event', {'data': 'some_data'})
     assert row['_data']['data'] == 'some_data'
 
 
@@ -48,6 +48,7 @@ def test_decorator():
         row['_timestamp'] = row['_timestamp'][:11]
 
         expected = {
+            '_event': 'function',
             '_file': 'tests/test_helper.py',
             '_priority': logger.INFO,
             '_function': 'decorated_func',
@@ -70,12 +71,12 @@ def test_decorator():
 
 def test_context():
     logger.set_context({'var1': 1})
-    row = logger.debug({'data': 'some_data'})
+    row = logger.debug('event', {'data': 'some_data'})
     assert row['_data']['var1'] == 1
     assert row['_data']['data'] == 'some_data'
 
     logger.clear_context()
-    row = logger.debug({'data': 'some_data'})
+    row = logger.debug('event', {'data': 'some_data'})
     assert not row['_data'].get('var1')
     assert row['_data']['data'] == 'some_data'
 
@@ -85,6 +86,7 @@ def test_dynamic_context():
     row = test_helper.func(1, arg2=2)
     row['_timestamp'] = row['_timestamp'][:11]
     assert sorted(row.items()) == sorted({
+        '_event': 'event',
         '_file': 'tests/test_helper.py',
         '_priority': 7,
         '_function': 'func',
@@ -99,41 +101,41 @@ def test_dynamic_context():
 
 
 def test_index():
-    row = logger.debug({'index1': 1, 'index2': 2, 'data': 'data'})
+    row = logger.debug('event', {'index1': 1, 'index2': 2, 'data': 'data'})
     assert row['index1'] == 1
     assert row['index2'] == 2
     assert row['_data']['data'] == 'data'
 
 
 def test_levels():
-    row = logger.debug({'data': 'data'})
+    row = logger.debug('event', {'data': 'data'})
     assert row['_priority'] == logger.DEBUG
     assert row['_data']['data'] == 'data'
 
-    row = logger.info({'data': 'data'})
+    row = logger.info('event', {'data': 'data'})
     assert row['_priority'] == logger.INFO
     assert row['_data']['data'] == 'data'
 
-    row = logger.notice({'data': 'data'})
+    row = logger.notice('event', {'data': 'data'})
     assert row['_priority'] == logger.NOTICE
     assert row['_data']['data'] == 'data'
 
-    row = logger.warning({'data': 'data'})
+    row = logger.warning('event', {'data': 'data'})
     assert row['_priority'] == logger.WARNING
     assert row['_data']['data'] == 'data'
 
-    row = logger.error({'data': 'data'})
+    row = logger.error('event', {'data': 'data'})
     assert row['_priority'] == logger.ERROR
     assert row['_data']['data'] == 'data'
 
-    row = logger.critical({'data': 'data'})
+    row = logger.critical('event', {'data': 'data'})
     assert row['_priority'] == logger.CRITICAL
     assert row['_data']['data'] == 'data'
 
-    row = logger.alert({'data': 'data'})
+    row = logger.alert('event', {'data': 'data'})
     assert row['_priority'] == logger.ALERT
     assert row['_data']['data'] == 'data'
 
-    row = logger.emergency({'data': 'data'})
+    row = logger.emergency('event', {'data': 'data'})
     assert row['_priority'] == logger.EMERGENCY
     assert row['_data']['data'] == 'data'

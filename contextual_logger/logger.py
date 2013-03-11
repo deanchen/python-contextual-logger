@@ -82,7 +82,7 @@ def log_function(priority=INFO):
 
             }
 
-            _log(priority, data)
+            _log(priority, 'function', data)
             return response
 
         return wrapped
@@ -113,13 +113,13 @@ def _truncate_filename(filename):
         return filename
 
 
-def _log(priority, data, traceback=None):
+def _log(priority, event, data, traceback=None):
     global _WRITE_FN
 
     if data is None:
         data = {}
-    elif isinstance(data, basestring):
-        data = {'_event': data}
+
+    data['_event'] = event
 
     timestamp = '{0:d}'.format(int(time.time() * 1000000))
 
@@ -159,36 +159,37 @@ def _log(priority, data, traceback=None):
 
 
 def exception(data=None, log_level=3):
-    return _log(log_level, data, traceback.format_exc())
+    event = 'exception'
+    return _log(log_level, event, data, traceback.format_exc())
 
 
-def emergency(data=None):
-    return _log(EMERGENCY, data)
+def emergency(event, data=None):
+    return _log(EMERGENCY, event, data)
 
 
-def alert(data=None):
-    return _log(ALERT, data)
+def alert(event, data=None):
+    return _log(ALERT, event, data)
 
 
-def critical(data=None):
-    return _log(CRITICAL, data)
+def critical(event, data=None):
+    return _log(CRITICAL, event, data)
 
 
-def error(data=None):
-    return _log(ERROR, data)
+def error(event, data=None):
+    return _log(ERROR, event, data)
 
 
-def warning(data=None):
-    return _log(WARNING, data)
+def warning(event, data=None):
+    return _log(WARNING, event, data)
 
 
-def notice(data=None):
-    return _log(NOTICE, data)
+def notice(event, data=None):
+    return _log(NOTICE, event, data)
 
 
-def info(data=None):
-    return _log(INFO, data)
+def info(event, data=None):
+    return _log(INFO, event, data)
 
 
-def debug(data=None):
-    return _log(DEBUG, data)
+def debug(event, data=None):
+    return _log(DEBUG, event, data)
