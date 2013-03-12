@@ -6,7 +6,7 @@ import socket
 import traceback
 from functools import wraps
 
-_ROOT = None
+_ROOT = ""
 _INDEXES = ()
 _IP_ADDRESS = socket.gethostbyname(socket.gethostname())
 
